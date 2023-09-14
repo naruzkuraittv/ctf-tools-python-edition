@@ -58,8 +58,8 @@ class Border:
             print("Invalid config. Deleting...")
             self.delete()
 class Startup:
-    def __init__(self, border):
-        self.border = border
+    def __init__(self):
+        pass
 
     def start(self):
         print("Checking and creating config...")
@@ -72,12 +72,11 @@ class Startup:
 
 
 class Converter:
-    def __init__(self, border_style):
-        self.border_style = border_style
-
+    def __init__(self):
+        self = self
     def hex_to_decimal_and_ascii(self):
         while True:
-            (self.border_style)
+            border.print()
             hex_string = input("> (z)  go back to the menu \n> all hex numbers start with 0x and have numbers next to them\n> ex. 0x70 0x69 0x63 0x6\n> Enter the hex string: ").strip()
             if hex_string.lower() == 'z':
                 break
@@ -174,12 +173,12 @@ class Converter:
 
 #hex stripper #untested for edge case scenarios atm
 class Stripper:
-    def __init__(self, style):
-        self.style = style    
-    def help():
+    def __init__(self):
+        self = self
+    def help(self):
         print("(help), this print function\n (tamper main menu) paste in a bunch of text and if there are any hex values that are 0xnumber itll steal them then spit them out when you click t\n (t) spits out the stored\m (clear) clears the table of all known hex values.")
         stripper.hex()
-    def hex():
+    def hex(self):
         stripped_hex_numbers = {}  # Temporary dictionary to store hex numbers
         counter = 1  # Counter to track dictionary entries
         while True:
@@ -205,14 +204,14 @@ class Stripper:
                 print(f"Extracted Hex Numbers: {hex_output if hex_output else 'None'}")
 #the tamperer was for something realy weird
 class Tamperer:
-    def __init__(self, border_style):
-        self.border_style = border_style
+    def __init__(self):
+        self = self
 
     def extract_url_parameters(self, url):
         parsed_url = urlparse(url)
         params = parse_qs(parsed_url.query)
         return params
-    def help():
+    def help(self):
         print("help, this menu\n paste in a url and itll try to extract the visible secret key and key pair from the url. then generate a mew url based on encoding alg\n its super basic")
         tamperer.start()
     def tamper_parameters(self, params, secret_key=None):
@@ -251,7 +250,7 @@ class Tamperer:
             tampered_params = self.tamper_parameters(params)
         else:
             print("Invalid choice for the secret key. Try again.")
-            self.url_tamper()
+            self.start()
             return
 
         border.print()
@@ -270,8 +269,8 @@ class Tamperer:
             return
 
 class QoL:
-    def __init__(self, style):
-        self.style = style
+    def __init__(self):
+        pass
     def yesno(self, prompt, format_type):
         while True:
             user_input = input(str(border.style)  + "\n" + prompt + " \n(1)yes  (2)no): ").strip().lower()
@@ -291,85 +290,59 @@ class QoL:
                     return False
             else:
                 print("Error: Please type 'yes' or 'no'.")
-class Menus:
-    def __init__(self, border):
-        self.border = border
-    
-    def start(self):
-        while True:
-            border.print()
-            print("We have two modes:")
-            print("(1) Converter Mode")
-            print("(2) Tamper Mode")
-            border.print()
-            choice = input("Enter your choice: ")
 
-            if choice == '1':
-                self.converter()  # Call the converter menu
-            elif choice == '2':
-                # Implement tamper menu here if needed
-                pass
-            else:
-                print("Invalid choice. Please select a valid option.")
+    def int_input(self, prompt, valid_options):
+        while True:
+            user_input = input(prompt)
+            if user_input in valid_options:
+                return user_input
+            print("Invalid input. Try again.")
+
+    def menu_input(self, prompt, option_names, functions, num_columns): #the functions area is not allowed to have () unless you do lambda:function(stuff in function)
+        while True:
+            x = 1
+            for i in range(0, len(option_names), num_columns):
+                print(" ".join([f"({x + j}) {option_names[x + j - 1]}" for j in range(num_columns) if x + j <= len(option_names)]))
+                x += num_columns
+            user_input = input(prompt)
+            user_input 
+            if user_input.isdigit() and 1 <= int(user_input) <= len(option_names):
+                return functions[int(user_input) - 1]()
+            print("Invalid input. Try again.")
+
+class Menus:
+    def __init__(self):
+        pass
 
     def converter(self):
         while True:
             border.print()
-            print("Conversion Options:")
-            print("(1, d2hex) Decimal to Hex")
-            print("(2, h2da) Hex to Decimal and ASCII")
-            print("(3, h2a) ASCII to Hex")
-            print("(4, urld) Decode URL")
-            print("(5, cb, change, border, change border) Change border")
-            print("(6, b64) Base64 to ASCII nfs")
-            print("(7, b32) Base32 to ASCII nfs")
-            print("(8, hs) Hex Stripper")
-            print("(9) Exit")
-            print("(urltamper, restart, start menu, start,) extras")
+            option_names = [
+                "Decimal to Hex", "Hex to Decimal and ASCII", "ASCII to Hex",
+                "Decode URL", "Change border", "Base64 to ASCII",
+                "Base32 to ASCII", "Hex Stripper", "Exit", "Extras"
+            ]
+            functions = [
+                converter.decimal_to_hex, converter.hex_to_decimal_and_ascii, converter.ascii_to_hex,
+                converter.decode_url, border.change, converter.base64_to_ascii,
+                converter.base32_to_ascii, stripper.hex, self.exit_converter, lambda:print("test to see if this works :D")
+            ]
+            qol.menu_input("Enter your choice: ", option_names, functions, 2)
             border.print()
+            self.converter()
 
-            choice = input("Enter your choice: ")
-            
-            if choice in ['1', 'd2hex']:
-                converter.decimal_to_hex()
-            elif choice in ['2', 'h2da']:
-                converter.hex_to_decimal_and_ascii()
-            elif choice in ['3', 'a2h']:
-                converter.ascii_to_hex()
-            elif choice in ['4', 'urld']:
-                converter.decode_url()  
-            elif choice in ['5', 'change', 'border', 'change border']:
-                border.change()
-            elif choice in ['6', 'b64']:
-                converter.base64_to_ascii() 
-            elif choice in ['7', 'b32']:
-                converter.base32_to_ascii()  
-            elif choice in ['8', 'hs']:
-                stripper.hex()  # Call the method from the stripper class (i just now realised after being up 21hrs that the word stripper can be h0rny)
-            elif choice in ['9', 'exit']:
-                print("Exiting...")
-                break
-            elif choice == 'urltamper':
-                tamperer.start()
-            elif choice in ['start', 'restart', 'start menu']:
-                self.start()  # Go back to the start menu
-            elif choice == 'start menu':
-                self.start()
-            elif choice in ['change', 'border', 'change border']:
-                border.change()
-            else:
-                print("Invalid choice. Please select a valid option.")
+    def exit_converter(self):
+        print("Exiting...")
+        return 'exit'
 
-    def required_commands(self):
-        print("Required = commands:")
 #class initializations 
 border = Border()
-startup = Startup(border.style)
-menus = Menus(border.style)  
-qol = QoL(border.style)
-converter = Converter(border.style)
-tamperer = Tamperer(border.style)
-stripper = Stripper(border.style)
+startup = Startup()
+menus = Menus()  
+qol = QoL()
+converter = Converter()
+tamperer = Tamperer()
+stripper = Stripper()
 
 
 #end of menus
