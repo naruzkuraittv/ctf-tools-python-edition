@@ -177,13 +177,13 @@ class Stripper:
     def __init__(self, style):
         self.style = style    
     def help():
-    print("(help), this print function\n (tamper main menu) paste in a bunch of text and if there are any hex values that are 0xnumber itll steal them then spit them out when you click t\n (t) spits out the stored\m (clear) clears the table of all known hex values.")
-    self.start()
+        print("(help), this print function\n (tamper main menu) paste in a bunch of text and if there are any hex values that are 0xnumber itll steal them then spit them out when you click t\n (t) spits out the stored\m (clear) clears the table of all known hex values.")
+        stripper.hex()
     def hex():
         stripped_hex_numbers = {}  # Temporary dictionary to store hex numbers
         counter = 1  # Counter to track dictionary entries
         while True:
-            input_text = input("> (z) go back to the menu \n> (t) show all stored hex numbers \n> (clear) clear the stored hex numbers \n> Paste the text containing hex numbers: ").strip()
+            input_text = input("> (z) go back to the menu \n> (t) show all stored hex numbers \n> (clear) clear the stored hex numbers\n (help) help \n> Paste the text containing hex numbers: ").strip()
             
             if input_text.lower() == 'z':
                 break
@@ -214,7 +214,7 @@ class Tamperer:
         return params
     def help():
         print("help, this menu\n paste in a url and itll try to extract the visible secret key and key pair from the url. then generate a mew url based on encoding alg\n its super basic")
-        self.start()
+        tamperer.start()
     def tamper_parameters(self, params, secret_key=None):
         tampered_params = params.copy()
         
@@ -235,10 +235,10 @@ class Tamperer:
         border.print()  
         url = input("What's the URL, bro? ")
         border.print()  
-        if url = "help"
+        if url == "help":
           self.help
-        else
-        know_secret_key = qol.yesno("Do you know the secret key?", 'v')
+        else:
+            know_secret_key = qol.yesno("Do you know the secret key?", 'v')
 
         if know_secret_key == "yes":
             secret_key = input("Enter it: ")
